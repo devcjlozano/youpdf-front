@@ -31,7 +31,7 @@
         </v-list>
       </v-navigation-drawer>
       <v-toolbar
-      dark
+        dark
         flat
         color="primary"
         class="toolbar hidden-sm-and-up">
@@ -41,46 +41,66 @@
           @click="mostrarMenuDeslizante = !mostrarMenuDeslizante">
           <v-icon>mdi-view-headline</v-icon>
         </v-btn>
-        <v-toolbar-title class="headline text-uppercase">
-          <router-link
-            to="/"
-            class="enlace-router">
-            <span>YOU</span>
-            <span class="font-weight-light">PDF</span>
-          </router-link>
-        </v-toolbar-title>
-        <v-toolbar-items>
-          <v-btn text>
+        <div class="nav__toolbar-mobile">
+          <v-toolbar-title class="headline text-uppercase">
+            <router-link
+              to="/"
+              class="enlace-router">
+              <span>YOU</span>
+              <span class="font-weight-light">PDF</span>
+            </router-link>
+          </v-toolbar-title>
+          <v-toolbar-items>
+            <v-btn text>
+              <router-link
+                to="about"
+                class="enlace-router mr-2">
+              <span>Sobre YouPdf</span>
+              </router-link>
+          </v-btn>
+          </v-toolbar-items>
+        </div>
+      </v-toolbar>
+      <v-toolbar
+        flat
+        color="primary"
+        dark
+        class="toolbar hidden-xs-only">
+        <div class="nav__toolbar-desktop">
+          <div class="nav__toolbar_desktop-item">
+            <v-toolbar-title class="headline text-uppercase">
+              <router-link
+                to="/"
+                class="enlace-router">
+                <span>YOU</span>
+                <span class="font-weight-light">PDF</span>
+              </router-link>
+            </v-toolbar-title>
+          </div>
+          <v-toolbar-items>
+            <v-btn text>
+              <router-link
+                to="about"
+                class="enlace-router">
+                <span>Dividir pdf</span>
+              </router-link>
+            </v-btn>
+            <v-btn text>
+              <router-link
+                to="about"
+                class="enlace-router">
+                <span>Unir pdf</span>
+              </router-link>
+            </v-btn>
+          </v-toolbar-items>
+          <div class="nav__toolbar_desktop-item">
             <router-link
               to="about"
               class="enlace-router mr-2">
-             <span>Sobre YouPdf</span>
-            </router-link>
-         </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-toolbar
-        dark
-        flat
-        color="primary"
-        class="toolbar hidden-xs-only">
-        <v-toolbar-title class="headline text-uppercase">
-          <router-link
-            to="/"
-            class="enlace-router">
-            <span>YOU</span>
-            <span class="font-weight-light">PDF</span>
-          </router-link>
-       </v-toolbar-title>
-       <v-toolbar-items>
-         <v-btn text>
-           <router-link
-             to="about"
-             class="enlace-router mr-2">
             <span>Sobre YouPdf</span>
-           </router-link>
-        </v-btn>
-       </v-toolbar-items>
+            </router-link>
+          </div>
+      </div>
       </v-toolbar>
     </nav>
     <v-content>
@@ -115,8 +135,21 @@ export default {
   text-decoration: none;
   color: inherit
 }
-.toolbar {
-  background-color: rgba(255, 0, 0, 0.612);
-  color: white;
+.nav__toolbar-desktop {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+.nav__toolbar_desktop-item {
+  display: flex;
+  align-items: center;
+}
+.nav__toolbar-mobile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
