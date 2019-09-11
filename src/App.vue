@@ -14,9 +14,10 @@
         <span class="mr-2">Latest Release</span>
       </v-btn>
     </v-app-bar>
-
     <v-content>
-      <router-view/>
+      <v-container class="section">
+        <router-view/>
+      </v-container>
     </v-content>
   </v-app>
 </template>
@@ -32,3 +33,9 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+.section {
+  padding: 20px;
+}
+</style>
