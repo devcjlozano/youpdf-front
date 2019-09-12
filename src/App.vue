@@ -37,14 +37,14 @@
     <div class="mensaje-principal">
        <h1>Utilidades para tus PDF</h1>
        <div class="mensaje-principal__texto">
-        <p>YouPdf te ofrece diversas herramientas gratuitas con las que por ejemplo
+        <p>YouPdf te ofrece diversas herramientas gratuitas con las que
           podrás cortar pdf, unirlos y muchas cosas más </p>
       </div>
      </div>
     <v-content>
-      <v-container class="section">
+      <div class="section">
         <router-view/>
-      </v-container>
+      </div>
     </v-content>
   </v-app>
 </template>
