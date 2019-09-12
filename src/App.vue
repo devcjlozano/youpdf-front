@@ -30,78 +30,9 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar
-        dark
-        flat
-        color="primary"
-        class="toolbar hidden-sm-and-up">
-        <v-btn
-          text
-          icon
-          @click="mostrarMenuDeslizante = !mostrarMenuDeslizante">
-          <v-icon>mdi-view-headline</v-icon>
-        </v-btn>
-        <div class="nav__toolbar-mobile">
-          <v-toolbar-title class="headline text-uppercase">
-            <router-link
-              to="/"
-              class="enlace-router">
-              <span>YOU</span>
-              <span class="font-weight-light">PDF</span>
-            </router-link>
-          </v-toolbar-title>
-          <v-toolbar-items>
-            <v-btn text>
-              <router-link
-                to="about"
-                class="enlace-router mr-2">
-              <span>Sobre YouPdf</span>
-              </router-link>
-          </v-btn>
-          </v-toolbar-items>
-        </div>
-      </v-toolbar>
-      <v-toolbar
-        flat
-        color="primary"
-        dark
-        class="toolbar hidden-xs-only">
-        <div class="nav__toolbar-desktop">
-          <div class="nav__toolbar_desktop-item">
-            <v-toolbar-title class="headline text-uppercase">
-              <router-link
-                to="/"
-                class="enlace-router">
-                <span>YOU</span>
-                <span class="font-weight-light">PDF</span>
-              </router-link>
-            </v-toolbar-title>
-          </div>
-          <v-toolbar-items>
-            <v-btn text>
-              <router-link
-                to="about"
-                class="enlace-router">
-                <span>Dividir pdf</span>
-              </router-link>
-            </v-btn>
-            <v-btn text>
-              <router-link
-                to="about"
-                class="enlace-router">
-                <span>Unir pdf</span>
-              </router-link>
-            </v-btn>
-          </v-toolbar-items>
-          <div class="nav__toolbar_desktop-item">
-            <router-link
-              to="about"
-              class="enlace-router mr-2">
-            <span>Sobre YouPdf</span>
-            </router-link>
-          </div>
-      </div>
-      </v-toolbar>
+      <ToolbarDesktop/>
+      <ToolbarMobile
+        @mostrar-menu-deslizante="mostrarMenuDeslizante = !mostrarMenuDeslizante"/>
     </nav>
     <v-content>
       <v-container class="section">
@@ -111,10 +42,14 @@
   </v-app>
 </template>
 <script>
+import ToolbarDesktop from '@/components/ToolbarDesktop.vue';
+import ToolbarMobile from '@/components/ToolbarMobile.vue';
 
 export default {
   name: 'App',
   components: {
+    ToolbarDesktop,
+    ToolbarMobile,
   },
   data() {
     return {
