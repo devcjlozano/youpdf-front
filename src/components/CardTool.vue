@@ -75,6 +75,9 @@ export default {
 </script>
 
 <style scoped>
+.theme--light.v-card{
+  background-color: transparent;
+}
 .card__subtitle {
   font-weight: 700;
 }
