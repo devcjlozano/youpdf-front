@@ -5,6 +5,7 @@
       <v-file-input
         class="dividirPdf__contenedor-input__input"
         v-model="files"
+        @change="changeInputPdf"
         accept=".pdf"
         color="primary"
         counter
@@ -34,19 +35,45 @@
         </template>
       </v-file-input>
     </div>
+    <span> El número de páginas del pdf es {{ numPages }}</span>
+    <div>
+      <pdf
+        v-if="fileDocument !== '' && files !== null"
+        :src="fileDocument"
+        @num-pages="numeroPaginasPdf"
+        :page="1"></pdf>
+    </div>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line import/extensions
+import pdf from 'vue-pdf';
+import toBase64 from '@/utils/general';
 
 export default {
   name: 'DividirPdf',
   components: {
+    pdf,
   },
   data() {
     return {
-      files: [],
+      files: null,
+      fileDocument: '',
+      numPages: 0,
     };
+  },
+  methods: {
+    async changeInputPdf(file) {
+      if (file !== null) {
+        this.fileDocument = await toBase64(file);
+      }
+    },
+    numeroPaginasPdf(numPages) {
+      if (numPages > 0) {
+        this.numPages = numPages;
+      }
+    },
   },
 };
 </script>
@@ -54,7 +81,10 @@ export default {
 .dividirPdf,
 .dividirPdf__contenedor-input {
   display: flex;
-  justify-content: center;
+}
+.dividirPdf {
+  flex-direction: column;
+  align-items: center;
 }
 .dividirPdf__contenedor-input {
   width: 100%;
