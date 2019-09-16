@@ -40,12 +40,20 @@
         <p>YouPdf te ofrece diversas herramientas gratuitas con las que
           podrás cortar pdf, unirlos y muchas cosas más </p>
       </div>
-     </div>
+    </div>
     <v-content>
       <div class="section">
         <router-view/>
       </div>
     </v-content>
+    <footer class="mensaje-principal">
+       <div>
+       <h1>Footer</h1>
+        <div class="mensaje-principal__texto">
+          <p>YouPdf es de uso gratuito creado por Carlos Javier Lozano Perez </p>
+      </div>
+      </div>
+    </footer>
   </v-app>
 </template>
 <script>

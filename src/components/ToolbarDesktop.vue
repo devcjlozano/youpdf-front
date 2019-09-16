@@ -17,19 +17,16 @@
           </v-toolbar-title>
         </div>
         <v-toolbar-items>
-          <v-btn text>
-            <router-link
-              to="about"
-              class="enlace-router">
-              <span>Dividir pdf</span>
-            </router-link>
+          <v-btn
+            text
+            to="dividir-pdf">
+            <span>Dividir pdf</span>
           </v-btn>
-          <v-btn text>
-            <router-link
-              to="about"
-              class="enlace-router">
-              <span>Unir pdf</span>
-            </router-link>
+          <v-btn
+            text
+            to="about"
+            class="enlace-router">
+            <span>Unir pdf</span>
           </v-btn>
         </v-toolbar-items>
         <div class="toolbar__contenedor__item">

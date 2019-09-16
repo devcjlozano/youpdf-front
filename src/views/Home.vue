@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <ListTools/>
+    <ListTools @abrir-herramienta="abrirHerramienta"/>
   </div>
 </template>
 
@@ -11,6 +11,17 @@ export default {
   name: 'Home',
   components: {
     ListTools,
+  },
+  methods: {
+    abrirHerramienta(herramienta) {
+      switch (herramienta) {
+        case 'dividir':
+          this.$router.push('dividir-pdf');
+          break;
+        default:
+          this.$router.push('dividir-pdf');
+      }
+    },
   },
 };
 </script>
