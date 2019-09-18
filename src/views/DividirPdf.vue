@@ -6,16 +6,18 @@
         <p>Extrae una o varias páginas del PDF que selecciones  </p>
       </div>
     </div>
-    <div class="dividirPdf__section section__contenido">
-      <InputPdf
-        @archivo-seleccionado="archivoSeleccionado"/>
+    <div class="section__contenido">
+      <div class="dividirPdf__input">
+        <InputPdf
+          @archivo-seleccionado="archivoSeleccionado"/>
       <span v-if="!existePdf">
         Cuando selecciones tu pdf, aparecerán las herramientas
         para que puedas seleccionar las páginas </span>
+      </div>
       <div
-       v-else
+       v-if="existePdf"
        class="dividirPdf__section__pdf-rangos">
-       <div>
+       <div class="dividirPdf__section__pdf-rangos--pdf">
         <pdf
           v-if="fileDocumentBase64 !== ''"
           :src="fileDocumentBase64"
@@ -23,10 +25,11 @@
           :page="1">
         </pdf>
       </div>
-      <RangosPdf
-        class="dividirPdf__section__pdf-rangos--rangos"
-        :numero-paginas="numeroPaginas"
-        :existe-pdf="existePdf"/>
+      <div class="dividirPdf__section__pdf-rangos--rangos">
+        <RangosPdf
+          :numero-paginas="numeroPaginas"
+          :existe-pdf="existePdf"/>
+      </div>
     </div>
     </div>
   </div>
@@ -80,7 +83,7 @@ export default {
 </script>
 
 <style scoped>
-.dividirPdf__section {
+.dividirPdf__input {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,15 +95,24 @@ export default {
   flex-wrap: wrap;
   margin-top: 20px;
 }
+.dividirPdf__section__pdf-rangos--pdf {
+  border: 1px solid rgba(0, 0, 0, 0.58);
+  width: 300px;
+}
 
-@media (min-width: 850px) {
+@media (min-width: 767px) {
   .dividirPdf__section__pdf-rangos {
      display: flex;
      flex-direction: row;
-     justify-content: flex-start;
+     justify-content: center;
      align-items: flex-start;
      flex-wrap: wrap;
   }
+  .dividirPdf__section__pdf-rangos--rangos {
+     margin-left: 35px;
+  }
+}
+@media (min-width: 991px) {
   .dividirPdf__section__pdf-rangos--rangos {
      margin-left: 80px;
   }
