@@ -1,10 +1,18 @@
 <template>
   <div class="dividirPdf">
-    <InputPdf
-      @archivo-seleccionado="archivoSeleccionado"/>
-    <RangosPdf
-      :numero-paginas="numeroPaginasPdf"
-      :existe-pdf="existePdf"/>
+    <div class="mensaje-principal">
+       <h1>Dividir Pdf</h1>
+       <div class="mensaje-principal__texto">
+        <p>Para dividir pdf </p>
+      </div>
+    </div>
+    <div class="dividirPdf__section section__contenido">
+      <InputPdf
+        @archivo-seleccionado="archivoSeleccionado"/>
+      <RangosPdf
+        :numero-paginas="numeroPaginasPdf"
+        :existe-pdf="existePdf"/>
+    </div>
   </div>
 </template>
 
@@ -43,7 +51,7 @@ export default {
 </script>
 
 <style scoped>
-.dividirPdf {
+.dividirPdf__section {
   display: flex;
   flex-direction: column;
   align-items: center;
