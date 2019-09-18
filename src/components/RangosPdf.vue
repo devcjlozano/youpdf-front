@@ -1,7 +1,11 @@
 <template>
 <div class="rangosPdf">
-  <h1> Aquí irán los rangos, bieeeeen</h1>
+  <h1> Seleccionar páginas a extraer</h1>
   <h3 v-text="existePdf ? 'hay pdf': 'no hay pdf'"> </h3>
+  <span
+    class="rangosPdf__info-paginas">
+    Número de páginas del pdf: {{ numeroPaginas }}
+  </span>
 </div>
 </template>
 <script>
@@ -30,4 +34,8 @@ export default {
 </script>
 
 <style scoped>
+  .rango__pdf-info-paginas {
+  font-size: 0.9em;
+  font-weight: 500;
+}
 </style>
