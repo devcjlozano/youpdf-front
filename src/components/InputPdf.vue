@@ -70,6 +70,8 @@ export default {
     async changeInputPdf(file) {
       if (file !== null) {
         this.fileDocument = await toBase64(file);
+      } else {
+        this.$emit(this.$emit('archivo-seleccionado', null, 0));
       }
     },
     numeroPaginasPdf(numPages) {
