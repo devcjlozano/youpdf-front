@@ -35,7 +35,11 @@
         </template>
       </v-file-input>
     </div>
-    <span> El número de páginas del pdf es {{ numPages }}</span>
+    <span
+      v-if="files!== null"
+      class="dividirPdf__contenedor-input__input__textoNumeroPaginas">
+        El número de páginas del pdf es {{ numPages }}
+    </span>
     <div>
       <pdf
         v-if="fileDocument !== '' && files !== null"
@@ -88,6 +92,10 @@ export default {
 }
 .dividirPdf__contenedor-input {
   width: 100%;
+}
+.dividirPdf__contenedor-input__input__textoNumeroPaginas {
+  font-size: 0.9em;
+  font-weight: 500;
 }
 @media (min-width: 768px) {
   .dividirPdf__contenedor-input {
