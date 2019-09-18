@@ -71,7 +71,7 @@ export default {
       if (file !== null) {
         this.fileDocument = await toBase64(file);
       } else {
-        this.$emit(this.$emit('archivo-seleccionado', null, 0));
+        this.$emit('archivo-seleccionado', '', 0);
       }
     },
     numeroPaginasPdf(numPages) {
