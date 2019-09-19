@@ -34,13 +34,6 @@
       <ToolbarMobile
         @mostrar-menu-deslizante="mostrarMenuDeslizante = !mostrarMenuDeslizante"/>
     </nav>
-    <div class="mensaje-principal">
-       <h1>Utilidades para tus PDF</h1>
-       <div class="mensaje-principal__texto">
-        <p>YouPdf te ofrece diversas herramientas gratuitas con las que
-          podrás cortar pdf, unirlos y muchas cosas más </p>
-      </div>
-    </div>
     <v-content>
       <div class="section">
         <router-view/>
@@ -81,9 +74,6 @@ export default {
 .nav {
   display: flex;
 }
-.section {
-  padding: 20px;
-}
 .enlace-router{
   text-decoration: none;
   color: inherit
@@ -105,13 +95,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.mensaje-principal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
-  background-color: #fafafa;
-}
+
 .mensaje-principal__texto {
   text-align: center;
 }

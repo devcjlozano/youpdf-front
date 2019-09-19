@@ -1,47 +1,36 @@
 <template>
   <div class="dividirPdf">
-    <div
-      class="dividirPdf__contenedor-input">
-      <v-file-input
-        class="dividirPdf__contenedor-input__input"
-        v-model="files"
-        @change="changeInputPdf"
-        accept=".pdf"
-        color="primary"
-        counter
-        label="Selección de pdf"
-        placeholder="Haz click aquí para seleccionar tu archivo pdf"
-        prepend-icon="mdi-paperclip"
-        outlined
-        :show-size="1000"
-      >
-        <template v-slot:selection="{ index, text }">
-          <v-chip
-            v-if="index < 2"
-            color="primary"
-            dark
-            label
-            small
-          >
-           {{ text }}
-         </v-chip>
-
-         <span
-           v-else-if="index === 2"
-           class="overline grey--text text--darken-3 mx-2"
-          >
-          +{{ files.length - 2 }} File(s)
-        </span>
-        </template>
-      </v-file-input>
+    <div class="mensaje-principal">
+       <h1>Dividir Pdf</h1>
+       <div class="mensaje-principal__texto">
+        <p>Extrae una o varias páginas del PDF que selecciones  </p>
+      </div>
     </div>
-    <span> El número de páginas del pdf es {{ numPages }}</span>
-    <div>
-      <pdf
-        v-if="fileDocument !== '' && files !== null"
-        :src="fileDocument"
-        @num-pages="numeroPaginasPdf"
-        :page="1"></pdf>
+    <div class="section__contenido">
+      <div class="dividirPdf__input">
+        <InputPdf
+          @archivo-seleccionado="archivoSeleccionado"/>
+      <span v-if="!existePdf">
+        Cuando selecciones tu pdf, aparecerán las herramientas
+        para que puedas seleccionar las páginas </span>
+      </div>
+      <div
+       v-if="existePdf"
+       class="dividirPdf__section__pdf-rangos">
+       <div class="dividirPdf__section__pdf-rangos--pdf">
+        <pdf
+          v-if="fileDocumentBase64 !== ''"
+          :src="fileDocumentBase64"
+          @num-pages="numeroPaginasPdf"
+          :page="1">
+        </pdf>
+      </div>
+      <div class="dividirPdf__section__pdf-rangos--rangos">
+        <RangosPdf
+          :numero-paginas="numeroPaginas"
+          :existe-pdf="existePdf"/>
+      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -49,54 +38,94 @@
 <script>
 // eslint-disable-next-line import/extensions
 import pdf from 'vue-pdf';
+import InputPdf from '@/components/InputPdf.vue';
+import RangosPdf from '@/components/RangosPdf.vue';
 import toBase64 from '@/utils/general';
 
 export default {
   name: 'DividirPdf',
   components: {
+    InputPdf,
+    RangosPdf,
     pdf,
   },
   data() {
     return {
-      files: null,
-      fileDocument: '',
-      numPages: 0,
+      fileSeleccionado: '',
+      numeroPaginas: 0,
+      fileDocumentBase64: '',
     };
   },
-  methods: {
-    async changeInputPdf(file) {
-      if (file !== null) {
-        this.fileDocument = await toBase64(file);
+  computed: {
+    existePdf() {
+      if (this.fileSeleccionado !== null && this.fileSeleccionado !== '') {
+        return true;
       }
+      return false;
     },
-    numeroPaginasPdf(numPages) {
-      if (numPages > 0) {
-        this.numPages = numPages;
+  },
+  methods: {
+    async archivoSeleccionado(file) {
+      if (file !== '') {
+        this.fileDocumentBase64 = await toBase64(file);
+      } else {
+        this.fileDocumentBase64 = '';
+      }
+      this.fileSeleccionado = file;
+    },
+    numeroPaginasPdf(numero) {
+      if (numero > 0) {
+        this.numeroPaginas = numero;
       }
     },
   },
 };
 </script>
+
 <style scoped>
-.dividirPdf,
-.dividirPdf__contenedor-input {
+.dividirPdf__input {
   display: flex;
-}
-.dividirPdf {
   flex-direction: column;
   align-items: center;
 }
-.dividirPdf__contenedor-input {
-  width: 100%;
+.dividirPdf__section__pdf-rangos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
-@media (min-width: 768px) {
-  .dividirPdf__contenedor-input {
-    width: 80%;
+.dividirPdf__section__pdf-rangos--pdf {
+  border: 1px solid rgba(0, 0, 0, 0.58);
+  width: 200px;
+  height: 282px;
+}
+
+@media (max-width: 766px) {
+  .dividirPdf__section__pdf-rangos--rangos {
+     margin-top: 20px;
   }
 }
-@media (min-width: 992px) {
-  .dividirPdf__contenedor-input {
-    width: 60%;
+
+@media (min-width: 767px) {
+  .dividirPdf__section__pdf-rangos {
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: flex-start;
+     flex-wrap: wrap;
+  }
+  .dividirPdf__section__pdf-rangos--rangos {
+     margin-left: 35px;
+  }
+  .dividirPdf__section__pdf-rangos--pdf {
+   width: 300px;
+   height: 423px;
+  }
+}
+@media (min-width: 991px) {
+  .dividirPdf__section__pdf-rangos--rangos {
+     margin-left: 80px;
   }
 }
 </style>
