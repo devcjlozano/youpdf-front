@@ -97,7 +97,14 @@ export default {
 }
 .dividirPdf__section__pdf-rangos--pdf {
   border: 1px solid rgba(0, 0, 0, 0.58);
-  width: 300px;
+  width: 200px;
+  height: 282px;
+}
+
+@media (max-width: 766px) {
+  .dividirPdf__section__pdf-rangos--rangos {
+     margin-top: 20px;
+  }
 }
 
 @media (min-width: 767px) {
@@ -110,6 +117,10 @@ export default {
   }
   .dividirPdf__section__pdf-rangos--rangos {
      margin-left: 35px;
+  }
+  .dividirPdf__section__pdf-rangos--pdf {
+   width: 300px;
+   height: 423px;
   }
 }
 @media (min-width: 991px) {
