@@ -1,6 +1,7 @@
 <template>
     <v-snackbar
-      v-model="snackBar"
+      :value="snackBar"
+      @input="cerrarSnackBar"
       multi-line
       :color="color"
       top
@@ -36,7 +37,8 @@ export default {
   components: {
   },
   data() {
-    return {};
+    return {
+    };
   },
   methods: {
     cerrarSnackBar() {
