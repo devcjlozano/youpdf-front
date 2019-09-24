@@ -59,16 +59,24 @@
             :items="rangos"
             :page.sync="page"
             :items-per-page="itemsPerPage"
+            item-key="index"
             no-data-text="No hay rangos seleccionados"
             hide-default-footer
             @page-count="pageCount = $event"
             dense>
             <template v-slot:item.action="{ item }">
-              <v-icon
-          small
-        >
-          mdi-delete-outline
-        </v-icon>
+              <v-tooltip top>
+                <template v-slot:activator=" { on }">
+                  <v-icon
+                    @click="abrirDialogoBorrarRango(item.idRango)"
+                    small
+                    v-on="on"
+                  >
+                    mdi-delete-outline
+                  </v-icon>
+                </template>
+                <span> Eliminar este rango</span>
+              </v-tooltip>
             </template>
           </v-data-table>
         </div>
@@ -84,10 +92,15 @@
       :snack-bar="snackBarVisible"
       :mensaje="textoMensajeRango"
       @cerrar-snackBar="cerrarSnackBar"/>
+    <DialogoRangos
+       :dialogo-visible="dialogoRangosVisible"
+       @cerrar-dialogo-rangos="cerrarDialogoRangos"
+       @borrar-rango="borrarRango"/>
   </div>
 </template>
 <script>
 import SnackBar from './SnackBar.vue';
+import DialogoRangos from './DialogoRangos.vue';
 
 export default {
   name: 'RangosPdf',
@@ -103,6 +116,7 @@ export default {
   },
   components: {
     SnackBar,
+    DialogoRangos,
   },
   data() {
     return {
@@ -112,8 +126,11 @@ export default {
       itemsPerPage: 6,
       desdePagina: 1,
       hastaPagina: 1,
+      idRango: 0,
+      idBorrar: 0,
       snackBarVisible: false,
       textoMensajeRango: '',
+      dialogoRangosVisible: false,
       headers: [
         {
           text: 'Desde página',
@@ -150,8 +167,10 @@ export default {
         const objectRango = {
           desde,
           hasta,
+          idRango: this.idRango,
         };
         this.rangos.push(objectRango);
+        this.idRango += 1;
       }
     },
     validarRango(desde, hasta) {
@@ -187,6 +206,20 @@ export default {
     },
     cerrarSnackBar() {
       this.snackBarVisible = false;
+    },
+    abrirDialogoBorrarRango(idBorrar) {
+      this.idBorrar = idBorrar;
+      this.dialogoRangosVisible = true;
+    },
+    cerrarDialogoRangos() {
+      this.dialogoRangosVisible = false;
+    },
+    borrarRango() {
+      const posRango = this.rangos.findIndex(element => element.idRango === this.idBorrar);
+      if (posRango !== -1) {
+        this.rangos.splice(posRango, 1);
+      }
+      this.cerrarDialogoRangos();
     },
   },
 };
