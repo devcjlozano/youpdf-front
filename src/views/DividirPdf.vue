@@ -28,7 +28,8 @@
       <div class="dividirPdf__section__pdf-rangos--rangos">
         <RangosPdf
           :numero-paginas="numeroPaginas"
-          :existe-pdf="existePdf"/>
+          :existe-pdf="existePdf"
+          @dividir-pdf="dividirPdf"/>
       </div>
     </div>
     </div>
@@ -41,6 +42,7 @@ import pdf from 'vue-pdf';
 import InputPdf from '@/components/InputPdf.vue';
 import RangosPdf from '@/components/RangosPdf.vue';
 import toBase64 from '@/utils/general';
+import api from '@/api/index';
 
 export default {
   name: 'DividirPdf',
@@ -77,6 +79,9 @@ export default {
       if (numero > 0) {
         this.numeroPaginas = numero;
       }
+    },
+    dividirPdf() {
+      api.dividirPdf(this.fileDocumentBase64);
     },
   },
 };

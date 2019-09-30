@@ -40,10 +40,14 @@
           <v-btn
             color="primary"
             :disabled="rangos.length < 1"
+            @click="dividirPdf"
             solid>
               <v-icon
                 left
-                class="icon-tijeras"> mdi-content-cut </v-icon>Dividir PDF
+                class="icon-tijeras">
+                mdi-content-cut
+              </v-icon>
+                Dividir PDF
             </v-btn>
         </div>
       </div>
@@ -220,6 +224,9 @@ export default {
         this.rangos.splice(posRango, 1);
       }
       this.cerrarDialogoRangos();
+    },
+    dividirPdf() {
+      this.$emit('dividir-pdf');
     },
   },
 };
