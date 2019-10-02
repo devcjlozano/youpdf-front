@@ -1,16 +1,23 @@
 <template>
   <div class="dividirPdf">
-    <v-overlay
-      :value="loadingDescargaPdf">
-     <div class="overlay__contenido">
-        <v-progress-circular
+    <v-dialog
+        persistent
+        width="290"
+        v-model="loadingDescargaPdf">
+        <v-card
           color="primary"
-          indeterminate size="64">
-        </v-progress-circular>
-        <span> Preparando tus pdfs</span>
-      </div>
-      <span> </span>
-    </v-overlay>
+          dark>
+          <v-card-text
+            class="card-visor-text">
+            Preparando tus pdf, un momento por favor
+            <v-progress-linear
+              color="white"
+              indeterminate
+              size="64">
+            </v-progress-linear>
+          </v-card-text>
+        </v-card>
+    </v-dialog>
     <div class="mensaje-principal">
        <h1>Dividir Pdf</h1>
        <div class="mensaje-principal__texto">
@@ -29,10 +36,31 @@
        v-if="existePdf"
        class="dividirPdf__section__pdf-rangos">
        <div class="dividirPdf__section__pdf-rangos--pdf">
-        <pdf
+          <v-dialog
+            persistent
+            pa-2
+            width="290"
+            class="mx-auto"
+            v-model="loadingVisorPdf">
+            <v-card
+              color="primary"
+              dark>
+              <v-card-text
+               class="card-visor-text">
+                Cargando el pdf
+                <v-progress-linear
+                  color="white"
+                  indeterminate
+                  size="64">
+                </v-progress-linear>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+          <pdf
           v-if="fileDocumentBase64 !== ''"
           :src="fileDocumentBase64"
           @num-pages="numeroPaginasPdf"
+          @loaded="visorCargado"
           :page="1">
         </pdf>
       </div>
@@ -67,6 +95,7 @@ export default {
       fileSeleccionado: '',
       numeroPaginas: 0,
       fileDocumentBase64: '',
+      loadingVisorPdf: false,
       loadingDescargaPdf: false,
     };
   },
@@ -81,9 +110,11 @@ export default {
   methods: {
     async archivoSeleccionado(file) {
       if (file !== '') {
+        this.loadingVisorPdf = true;
         this.fileDocumentBase64 = await toBase64(file);
       } else {
         this.fileDocumentBase64 = '';
+        this.loadingVisorPdf = false;
       }
       this.fileSeleccionado = file;
     },
@@ -102,7 +133,9 @@ export default {
       const a = document.createElement('a');
       a.href = urlDescarga;
       a.download = 'alpiste.pdf';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     },
     prepararDescargaPdf(pdfData) {
       return new Promise((resolve) => {
@@ -111,6 +144,9 @@ export default {
         const downloadUrl = url.createObjectURL(blob);
         resolve(downloadUrl);
       });
+    },
+    visorCargado() {
+      this.loadingVisorPdf = false;
     },
   },
 };
@@ -130,6 +166,9 @@ export default {
   margin-top: 20px;
 }
 .dividirPdf__section__pdf-rangos--pdf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.58);
   width: 200px;
   height: 282px;
@@ -138,6 +177,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.v-dialog > .v-card > .v-card__text {
+  padding: 12px;
 }
 
 @media (max-width: 766px) {
