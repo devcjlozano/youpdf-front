@@ -1,5 +1,16 @@
 <template>
   <div class="dividirPdf">
+    <v-overlay
+      :value="loadingDescargaPdf">
+     <div class="overlay__contenido">
+        <v-progress-circular
+          color="primary"
+          indeterminate size="64">
+        </v-progress-circular>
+        <span> Preparando tus pdfs</span>
+      </div>
+      <span> </span>
+    </v-overlay>
     <div class="mensaje-principal">
        <h1>Dividir Pdf</h1>
        <div class="mensaje-principal__texto">
@@ -28,7 +39,8 @@
       <div class="dividirPdf__section__pdf-rangos--rangos">
         <RangosPdf
           :numero-paginas="numeroPaginas"
-          :existe-pdf="existePdf"/>
+          :existe-pdf="existePdf"
+          @dividir-pdf="dividirPdf"/>
       </div>
     </div>
     </div>
@@ -41,6 +53,7 @@ import pdf from 'vue-pdf';
 import InputPdf from '@/components/InputPdf.vue';
 import RangosPdf from '@/components/RangosPdf.vue';
 import toBase64 from '@/utils/general';
+import api from '@/api/index';
 
 export default {
   name: 'DividirPdf',
@@ -54,6 +67,7 @@ export default {
       fileSeleccionado: '',
       numeroPaginas: 0,
       fileDocumentBase64: '',
+      loadingDescargaPdf: false,
     };
   },
   computed: {
@@ -78,6 +92,26 @@ export default {
         this.numeroPaginas = numero;
       }
     },
+    async dividirPdf() {
+      const formData = new FormData();
+      formData.append('filePDF', this.fileSeleccionado);
+      this.loadingDescargaPdf = true;
+      const { data } = await api.dividirPdf(formData);
+      const urlDescarga = await this.prepararDescargaPdf(data);
+      this.loadingDescargaPdf = false;
+      const a = document.createElement('a');
+      a.href = urlDescarga;
+      a.download = 'alpiste.pdf';
+      a.click();
+    },
+    prepararDescargaPdf(pdfData) {
+      return new Promise((resolve) => {
+        const blob = new Blob([pdfData], { type: 'data:application/pdf' });
+        const url = window.URL || window.webkitURL;
+        const downloadUrl = url.createObjectURL(blob);
+        resolve(downloadUrl);
+      });
+    },
   },
 };
 </script>
@@ -99,6 +133,11 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.58);
   width: 200px;
   height: 282px;
+}
+.overlay__contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (max-width: 766px) {
