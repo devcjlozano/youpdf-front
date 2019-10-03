@@ -123,9 +123,10 @@ export default {
         this.numeroPaginas = numero;
       }
     },
-    async dividirPdf() {
+    async dividirPdf(rangos) {
       const formData = new FormData();
       formData.append('filePDF', this.fileSeleccionado);
+      formData.append('rangos', JSON.stringify(rangos));
       this.loadingDescargaPdf = true;
       const { data } = await api.dividirPdf(formData);
       const urlDescarga = await this.prepararDescargaPdf(data);

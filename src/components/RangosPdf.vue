@@ -226,7 +226,7 @@ export default {
       this.cerrarDialogoRangos();
     },
     dividirPdf() {
-      this.$emit('dividir-pdf');
+      this.$emit('dividir-pdf', this.rangos);
     },
   },
 };
