@@ -65,6 +65,7 @@ export default {
       fileSeleccionado: '',
       numeroPaginas: 0,
       fileDocumentBase64: '',
+      nombrePdf: '',
       loadingVisorPdf: false,
       loadingDescargaPdf: false,
     };
@@ -78,8 +79,9 @@ export default {
     },
   },
   methods: {
-    async archivoSeleccionado(file) {
+    async archivoSeleccionado(file, tamanio, nombrePdf) {
       if (file !== '') {
+        this.nombrePdf = nombrePdf;
         this.loadingVisorPdf = true;
         this.fileDocumentBase64 = await toBase64(file);
       } else {
@@ -103,7 +105,7 @@ export default {
       this.loadingDescargaPdf = false;
       const a = document.createElement('a');
       a.href = urlDescarga;
-      a.download = 'alpiste.pdf';
+      a.download = `${this.nombrePdf}_${rangos[0].desde}_${rangos[0].hasta}.pdf`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
