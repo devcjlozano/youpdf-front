@@ -1,23 +1,8 @@
 <template>
   <div class="dividirPdf">
-    <v-dialog
-        persistent
-        width="290"
-        v-model="loadingDescargaPdf">
-        <v-card
-          color="primary"
-          dark>
-          <v-card-text
-            class="card-visor-text">
-            Preparando tus pdf, un momento por favor
-            <v-progress-linear
-              color="white"
-              indeterminate
-              size="64">
-            </v-progress-linear>
-          </v-card-text>
-        </v-card>
-    </v-dialog>
+    <DialogoLoad
+      texto-cargando='Preparando tus pdf, un momento por favor'
+      :dialogo-visible="loadingDescargaPdf"/>
     <div class="mensaje-principal">
        <h1>Dividir Pdf</h1>
        <div class="mensaje-principal__texto">
@@ -36,26 +21,9 @@
        v-if="existePdf"
        class="dividirPdf__section__pdf-rangos">
        <div class="dividirPdf__section__pdf-rangos--pdf">
-          <v-dialog
-            persistent
-            pa-2
-            width="290"
-            class="mx-auto"
-            v-model="loadingVisorPdf">
-            <v-card
-              color="primary"
-              dark>
-              <v-card-text
-               class="card-visor-text">
-                Cargando el pdf
-                <v-progress-linear
-                  color="white"
-                  indeterminate
-                  size="64">
-                </v-progress-linear>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
+         <DialogoLoad
+            texto-cargando='Cargando el pdf'
+            :dialogo-visible="loadingVisorPdf"/>
           <pdf
           v-if="fileDocumentBase64 !== ''"
           :src="fileDocumentBase64"
@@ -80,6 +48,7 @@
 import pdf from 'vue-pdf';
 import InputPdf from '@/components/InputPdf.vue';
 import RangosPdf from '@/components/RangosPdf.vue';
+import DialogoLoad from '@/components/DialogoLoad.vue';
 import toBase64 from '@/utils/general';
 import api from '@/api/index';
 
@@ -88,6 +57,7 @@ export default {
   components: {
     InputPdf,
     RangosPdf,
+    DialogoLoad,
     pdf,
   },
   data() {
@@ -178,9 +148,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.v-dialog > .v-card > .v-card__text {
-  padding: 12px;
 }
 
 @media (max-width: 766px) {
