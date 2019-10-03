@@ -34,28 +34,47 @@
       </span>
       </template>
     </v-file-input>
+    <SnackBar
+      color="primary"
+      :snack-bar="snackBarVisible"
+      mensaje="Upss, parece que el archivo no es un PDF o está dañado"
+      @cerrar-snackBar="cerrarSnackBar"/>
   </div>
 </div>
 </template>
 <script>
 // eslint-disable-next-line import/extensions
+import SnackBar from './SnackBar.vue';
 
 export default {
   name: 'InputPdf',
+  components: {
+    SnackBar,
+  },
   data() {
     return {
       files: null,
       fileDocument: '',
       numPages: 0,
+      snackBarVisible: false,
     };
   },
   methods: {
     async changeInputPdf(file) {
       if (file !== null) {
-        this.$emit('archivo-seleccionado', this.files, this.numPages);
+        if (file.type === 'application/pdf') {
+          const nombrePdf = file.name.slice(0, file.name.length - 4);
+          this.$emit('archivo-seleccionado', this.files, this.numPages, nombrePdf);
+        } else {
+          this.snackBarVisible = true;
+          this.files = null;
+        }
       } else {
         this.$emit('archivo-seleccionado', '');
       }
+    },
+    cerrarSnackBar() {
+      this.snackBarVisible = false;
     },
   },
 };
