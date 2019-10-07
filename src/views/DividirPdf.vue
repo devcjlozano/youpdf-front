@@ -68,6 +68,8 @@ export default {
       nombrePdf: '',
       loadingVisorPdf: false,
       loadingDescargaPdf: false,
+      arrayUrlsDescargas: [],
+      rangosSeleccionados: [],
     };
   },
   computed: {
@@ -96,19 +98,30 @@ export default {
       }
     },
     async dividirPdf(rangos) {
-      const formData = new FormData();
-      formData.append('filePDF', this.fileSeleccionado);
-      formData.append('rangos', JSON.stringify(rangos));
       this.loadingDescargaPdf = true;
-      const { data } = await api.dividirPdf(formData);
-      const urlDescarga = await this.prepararDescargaPdf(data);
+      this.rangosSeleccionados = rangos;
+      const promesas = [];
+      const promesasUrls = [];
+      let results = [];
+      let resultsUrls = [];
+      for (let i = 0; i < this.rangosSeleccionados.length; i += 1) {
+        const formData = new FormData();
+        formData.append('filePDF', this.fileSeleccionado);
+        formData.append('rango', JSON.stringify(this.rangosSeleccionados[i]));
+        console.log(formData);
+        promesas.push(api.dividirPdf(formData));
+      }
+
+      results = await Promise.all(promesas);
+      results.forEach((promesa) => {
+        promesasUrls.push(this.prepararDescargaPdf(promesa.data));
+      });
+      resultsUrls = await Promise.all(promesasUrls);
+      resultsUrls.forEach((url) => {
+        this.arrayUrlsDescargas.push(url);
+      });
+      this.descargarArchivos();
       this.loadingDescargaPdf = false;
-      const a = document.createElement('a');
-      a.href = urlDescarga;
-      a.download = `${this.nombrePdf}_${rangos[0].desde}_${rangos[0].hasta}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
     },
     prepararDescargaPdf(pdfData) {
       return new Promise((resolve) => {
@@ -120,6 +133,16 @@ export default {
     },
     visorCargado() {
       this.loadingVisorPdf = false;
+    },
+    descargarArchivos() {
+      const a = document.createElement('a');
+      for (let i = 0; i < this.arrayUrlsDescargas.length; i += 1) {
+        a.download = `${this.nombrePdf}_${this.rangosSeleccionados[i].desde}_${this.rangosSeleccionados[i].hasta}.pdf`;
+        document.body.appendChild(a);
+        a.href = this.arrayUrlsDescargas[i];
+        a.click();
+      }
+      document.body.removeChild(a);
     },
   },
 };
