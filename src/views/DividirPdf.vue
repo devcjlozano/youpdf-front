@@ -108,7 +108,6 @@ export default {
         const formData = new FormData();
         formData.append('filePDF', this.fileSeleccionado);
         formData.append('rango', JSON.stringify(this.rangosSeleccionados[i]));
-        console.log(formData);
         promesas.push(api.dividirPdf(formData));
       }
 
