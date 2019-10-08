@@ -36,6 +36,10 @@
         <RangosPdf
           :numero-paginas="numeroPaginas"
           :existe-pdf="existePdf"
+          :rangos-seleccionados="rangosSeleccionados"
+          :nuevo-pdf-cargado="nuevoPdfCargado"
+          @anadir-rango="anadirRango"
+          @borrar-rango="borrarRango"
           @dividir-pdf="dividirPdf"/>
       </div>
     </div>
@@ -65,6 +69,7 @@ export default {
       fileSeleccionado: '',
       numeroPaginas: 0,
       fileDocumentBase64: '',
+      nuevoPdfCargado: false,
       nombrePdf: '',
       loadingVisorPdf: false,
       loadingDescargaPdf: false,
@@ -83,11 +88,18 @@ export default {
   methods: {
     async archivoSeleccionado(file, tamanio, nombrePdf) {
       if (file !== '') {
+        if (this.rangosSeleccionados.length > 0) {
+          this.rangosSeleccionados = [];
+          this.numeroPaginas = 0;
+        }
         this.nombrePdf = nombrePdf;
         this.loadingVisorPdf = true;
+        this.nuevoPdfCargado = true;
         this.fileDocumentBase64 = await toBase64(file);
+        this.nuevoPdfCargado = false;
       } else {
         this.fileDocumentBase64 = '';
+        this.numeroPaginas = 0;
         this.loadingVisorPdf = false;
       }
       this.fileSeleccionado = file;
@@ -97,9 +109,14 @@ export default {
         this.numeroPaginas = numero;
       }
     },
-    async dividirPdf(rangos) {
+    anadirRango(objetoRango) {
+      this.rangosSeleccionados.push(objetoRango);
+    },
+    borrarRango(posBorrar) {
+      this.rangosSeleccionados.splice(posBorrar, 1);
+    },
+    async dividirPdf() {
       this.loadingDescargaPdf = true;
-      this.rangosSeleccionados = rangos;
       const promesas = [];
       const promesasUrls = [];
       let results = [];
@@ -120,6 +137,7 @@ export default {
         this.arrayUrlsDescargas.push(url);
       });
       this.descargarArchivos();
+      this.arrayUrlsDescargas = [];
       this.loadingDescargaPdf = false;
     },
     prepararDescargaPdf(pdfData) {

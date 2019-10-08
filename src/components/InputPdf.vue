@@ -26,12 +26,6 @@
           {{ text }}
         </v-chip>
 
-        <span
-          v-else-if="index === 2"
-          class="overline grey--text text--darken-3 mx-2"
-        >
-        +{{ files.length - 2 }} File(s)
-      </span>
       </template>
     </v-file-input>
     <SnackBar
@@ -61,11 +55,11 @@ export default {
   },
   methods: {
     async changeInputPdf(file) {
-      if (file !== null) {
+      if (this.files !== null && this.files !== undefined) {
         if (file.type === 'application/pdf') {
           const nombrePdf = file.name.slice(0, file.name.length - 4);
           this.$emit('archivo-seleccionado', this.files, this.numPages, nombrePdf);
-        } else {
+        } else if (this.files.length === undefined) {
           this.snackBarVisible = true;
           this.files = null;
         }
