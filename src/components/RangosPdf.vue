@@ -39,7 +39,7 @@
         <div class="boton-enviar">
           <v-btn
             color="primary"
-            :disabled="rangos.length < 1"
+            :disabled="rangosSeleccionados.length < 1"
             @click="dividirPdf"
             solid>
               <v-icon
@@ -60,7 +60,7 @@
         <div>
           <v-data-table
             :headers="headers"
-            :items="rangos"
+            :items="rangosSeleccionados"
             :page.sync="page"
             :items-per-page="itemsPerPage"
             item-key="index"
@@ -117,6 +117,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    rangosSeleccionados: {
+      type: Array,
+      default: () => [],
+    },
+    nuevoPdfCargado: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     SnackBar,
@@ -149,8 +157,15 @@ export default {
           value: 'action',
         },
       ],
-      rangos: [],
     };
+  },
+  watch: {
+    nuevoPdfCargado(val) {
+      if (val) {
+        this.desdePagina = 1;
+        this.hastaPagina = 1;
+      }
+    },
   },
   methods: {
     anadirRango() {
@@ -173,7 +188,7 @@ export default {
           hasta,
           idRango: this.idRango,
         };
-        this.rangos.push(objectRango);
+        this.$emit('anadir-rango', objectRango);
         this.idRango += 1;
       }
     },
@@ -190,7 +205,7 @@ export default {
           descripcionError: 'No se puede seleccionar un rango que sobrepase el número de páginas del pdf',
         };
       }
-      if (this.rangos.findIndex(element => element.desde === desde
+      if (this.rangosSeleccionados.findIndex(element => element.desde === desde
         && element.hasta === hasta) !== -1) {
         return {
           warning: true,
@@ -219,14 +234,16 @@ export default {
       this.dialogoRangosVisible = false;
     },
     borrarRango() {
-      const posRango = this.rangos.findIndex(element => element.idRango === this.idBorrar);
+      const posRango = this.rangosSeleccionados.findIndex(
+        element => element.idRango === this.idBorrar,
+      );
       if (posRango !== -1) {
-        this.rangos.splice(posRango, 1);
+        this.$emit('borrar-rango', posRango);
       }
       this.cerrarDialogoRangos();
     },
     dividirPdf() {
-      this.$emit('dividir-pdf', this.rangos);
+      this.$emit('dividir-pdf');
     },
   },
 };
