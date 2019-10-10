@@ -9,6 +9,9 @@
         <p>Extrae una o varias páginas del PDF que selecciones  </p>
       </div>
     </div>
+    <div>
+      <MigasDePan/>
+    </div>
     <div class="section__contenido">
       <div class="dividirPdf__input">
         <InputPdf
@@ -53,6 +56,7 @@ import pdf from 'vue-pdf';
 import InputPdf from '@/components/InputPdf.vue';
 import RangosPdf from '@/components/RangosPdf.vue';
 import DialogoLoad from '@/components/DialogoLoad.vue';
+import MigasDePan from '@/components/MigasDePan.vue';
 import toBase64 from '@/utils/general';
 import api from '@/api/index';
 
@@ -62,6 +66,7 @@ export default {
     InputPdf,
     RangosPdf,
     DialogoLoad,
+    MigasDePan,
     pdf,
   },
   data() {

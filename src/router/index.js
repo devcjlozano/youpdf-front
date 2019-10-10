@@ -13,22 +13,33 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+      meta: {
+        breadcrumb: [
+          { name: 'Home ' },
+        ],
+      },
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: About,
+      meta: {
+        breadcrumb: [
+          { name: 'Home ', link: 'home' },
+          { name: 'About' },
+        ],
+      },
     },
     {
       path: '/dividir-pdf',
       name: 'dividirPdf',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: DividirPdf,
+      meta: {
+        breadcrumb: [
+          { name: 'Home ', link: 'home' },
+          { name: 'dividir-pdf' },
+        ],
+      },
     },
   ],
 });
