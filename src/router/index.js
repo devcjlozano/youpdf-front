@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import DividirPdf from '@/views/DividirPdf.vue';
+import UnirPdf from '@/views/UnirPdf.vue';
 
 Vue.use(Router);
 
@@ -38,6 +39,17 @@ export default new Router({
         breadcrumb: [
           { name: 'Home ', link: 'home' },
           { name: 'dividir-pdf' },
+        ],
+      },
+    },
+    {
+      path: '/unir-pdf',
+      name: 'unirPdf',
+      component: UnirPdf,
+      meta: {
+        breadcrumb: [
+          { name: 'Home ', link: 'home' },
+          { name: 'unir-pdf' },
         ],
       },
     },

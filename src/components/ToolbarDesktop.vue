@@ -24,7 +24,7 @@
           </v-btn>
           <v-btn
             text
-            to="about"
+            to="unir-pdf"
             class="enlace-router">
             <span>Unir pdf</span>
           </v-btn>

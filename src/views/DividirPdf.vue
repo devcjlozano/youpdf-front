@@ -15,7 +15,7 @@
     <div class="section__contenido">
       <div class="dividirPdf__input">
         <InputPdf
-          @archivo-seleccionado="archivoSeleccionado"/>
+          @archivos-seleccionados="archivoSeleccionado"/>
       <span v-if="!existePdf">
         Cuando selecciones tu pdf, aparecerán las herramientas
         para que puedas seleccionar las páginas </span>
@@ -23,39 +23,31 @@
       <div
        v-if="existePdf"
        class="dividirPdf__section__pdf-rangos">
-       <div class="dividirPdf__section__pdf-rangos--pdf">
-         <DialogoLoad
-            texto-cargando='Cargando el pdf'
-            :dialogo-visible="loadingVisorPdf"/>
-          <pdf
-          v-if="fileDocumentBase64 !== ''"
-          :src="fileDocumentBase64"
-          @num-pages="numeroPaginasPdf"
-          @loaded="visorCargado"
-          :page="1">
-        </pdf>
-      </div>
-      <div class="dividirPdf__section__pdf-rangos--rangos">
-        <RangosPdf
-          :numero-paginas="numeroPaginas"
-          :existe-pdf="existePdf"
-          :rangos-seleccionados="rangosSeleccionados"
-          :nuevo-pdf-cargado="nuevoPdfCargado"
-          @anadir-rango="anadirRango"
-          @borrar-rango="borrarRango"
-          @dividir-pdf="dividirPdf"/>
-      </div>
+         <div class="dividirPdf__section__pdf-rangos--pdf">
+           <VisorPdf
+             :src="fileDocumentBase64"
+             @numero-paginas-pdf="numeroPaginasPdf"/>
+         </div>
+         <div class="dividirPdf__section__pdf-rangos--rangos">
+           <RangosPdf
+            :numero-paginas="numeroPaginas"
+            :existe-pdf="existePdf"
+            :rangos-seleccionados="rangosSeleccionados"
+            :nuevo-pdf-cargado="nuevoPdfCargado"
+            @anadir-rango="anadirRango"
+            @borrar-rango="borrarRango"
+            @dividir-pdf="dividirPdf"/>
+       </div>
     </div>
     </div>
   </div>
 </template>
 
 <script>
-// eslint-disable-next-line import/extensions
-import pdf from 'vue-pdf';
 import InputPdf from '@/components/InputPdf.vue';
 import RangosPdf from '@/components/RangosPdf.vue';
 import DialogoLoad from '@/components/DialogoLoad.vue';
+import VisorPdf from '@/components/VisorPdf.vue';
 import MigasDePan from '@/components/MigasDePan.vue';
 import toBase64 from '@/utils/general';
 import api from '@/api/index';
@@ -66,8 +58,8 @@ export default {
     InputPdf,
     RangosPdf,
     DialogoLoad,
+    VisorPdf,
     MigasDePan,
-    pdf,
   },
   data() {
     return {
@@ -184,10 +176,6 @@ export default {
   margin-top: 20px;
 }
 .dividirPdf__section__pdf-rangos--pdf {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(0, 0, 0, 0.58);
   width: 200px;
   height: 282px;
 }

@@ -5,6 +5,7 @@
     <v-file-input
       class="inputPdf__contenedor-input__input"
       v-model="files"
+      :multiple="multiple"
       @change="changeInputPdf"
       accept=".pdf"
       color="primary"
@@ -31,7 +32,7 @@
     <SnackBar
       color="primary"
       :snack-bar="snackBarVisible"
-      mensaje="Upss, parece que el archivo no es un PDF o está dañado"
+      mensaje="Upss, parece que uno de los archivos no es un PDF o está dañado"
       @cerrar-snackBar="cerrarSnackBar"/>
   </div>
 </div>
@@ -45,6 +46,12 @@ export default {
   components: {
     SnackBar,
   },
+  props: {
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       files: null,
@@ -55,17 +62,37 @@ export default {
   },
   methods: {
     async changeInputPdf(file) {
-      if (this.files !== null && this.files !== undefined) {
-        if (file.type === 'application/pdf') {
-          const nombrePdf = file.name.slice(0, file.name.length - 4);
-          this.$emit('archivo-seleccionado', this.files, this.numPages, nombrePdf);
+      if (!this.fileVacio()) {
+        const validatePdf = this.comprobarTiposFiles();
+        if (validatePdf) {
+          if (!this.multiple) {
+            const nombrePdf = file[0].name.slice(0, file[0].name.length - 4);
+            this.$emit('archivos-seleccionados', this.files[0], this.numPages, nombrePdf);
+          } else {
+            this.$emit('archivos-seleccionados', this.files);
+          }
         } else if (this.files.length === undefined) {
           this.snackBarVisible = true;
           this.files = null;
         }
       } else {
-        this.$emit('archivo-seleccionado', '');
+        this.$emit('archivos-seleccionados', '');
       }
+    },
+    comprobarTiposFiles() {
+      let valido = true;
+      this.files.forEach((file) => {
+        if (file.type !== 'application/pdf') {
+          valido = false;
+        }
+      });
+      return valido;
+    },
+    fileVacio() {
+      if (this.files === null || this.files === undefined || this.files.length === 0) {
+        return true;
+      }
+      return false;
     },
     cerrarSnackBar() {
       this.snackBarVisible = false;
@@ -80,6 +107,9 @@ export default {
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.inputPdf__contenedor-input {
+  width:  100%;
 }
 
 @media (min-width: 768px) {
