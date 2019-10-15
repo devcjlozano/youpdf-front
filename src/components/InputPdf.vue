@@ -67,14 +67,16 @@ export default {
         if (validatePdf) {
           if (!this.multiple) {
             const nombrePdf = file[0].name.slice(0, file[0].name.length - 4);
-            this.$emit('archivo-seleccionado', this.files[0], this.numPages, nombrePdf);
+            this.$emit('archivos-seleccionados', this.files[0], this.numPages, nombrePdf);
+          } else {
+            this.$emit('archivos-seleccionados', this.files);
           }
         } else if (this.files.length === undefined) {
           this.snackBarVisible = true;
           this.files = null;
         }
       } else {
-        this.$emit('archivo-seleccionado', '');
+        this.$emit('archivos-seleccionados', '');
       }
     },
     comprobarTiposFiles() {
@@ -105,6 +107,9 @@ export default {
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.inputPdf__contenedor-input {
+  width:  100%;
 }
 
 @media (min-width: 768px) {

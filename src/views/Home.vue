@@ -28,7 +28,7 @@ export default {
           this.$router.push('dividir-pdf');
           break;
         default:
-          this.$router.push('dividir-pdf');
+          this.$router.push('unir-pdf');
       }
     },
   },

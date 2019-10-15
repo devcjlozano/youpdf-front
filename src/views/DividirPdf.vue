@@ -15,7 +15,7 @@
     <div class="section__contenido">
       <div class="dividirPdf__input">
         <InputPdf
-          @archivo-seleccionado="archivoSeleccionado"/>
+          @archivos-seleccionados="archivoSeleccionado"/>
       <span v-if="!existePdf">
         Cuando selecciones tu pdf, aparecerán las herramientas
         para que puedas seleccionar las páginas </span>
