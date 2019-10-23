@@ -14,7 +14,7 @@ const dividirPdf = formData => axios({
 
 const unirPdf = formData => axios({
   method: 'post',
-  url: 'http://localhost:3000/dividirPdf',
+  url: 'http://localhost:3000/unirPdf',
   data: formData,
   responseType: 'arraybuffer',
   headers: {
