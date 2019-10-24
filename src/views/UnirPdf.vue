@@ -69,8 +69,8 @@ export default {
     async archivosSeleccionados(files) {
       if (files !== '') {
         const promesasFiles = [];
-        this.filesSeleccionados = files;
-        this.filesSeleccionados.forEach((file) => {
+        this.filesSeleccionados.push(...files);
+        files.forEach((file) => {
           promesasFiles.push(toBase64(file));
         });
         const results = await Promise.all(promesasFiles);
