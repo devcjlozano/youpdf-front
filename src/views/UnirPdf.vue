@@ -20,29 +20,41 @@
       class="titulo-visor"
       v-if="filesBase64.length > 0"
       >Pdf cargados para unir</h3>
-    <div class="visores">
-      <div
-         v-for="(fileBase64, index) in filesBase64"
-         :key="index"
-        class="visores__visor">
-      <VisorPdf
-         :src="fileBase64"/>
+      <div class="visores">
+        <draggable
+           v-model="filesSeleccionados"
+           v-bind="dragOptions"
+           @start="dragfuncionStart"
+           @end="dragfuncionEnd">
+          <transition-group
+            :name="!drag ? 'flip-list' : null"
+            class="transition-wrapper"
+            type="transition">
+              <div
+                v-for="(file, index) in filesSeleccionados"
+                :key="index"
+                class="visores__visor">
+                <VisorPdf
+                  :src="file.fileBase64"/>
+              </div>
+          </transition-group>
+        </draggable>
       </div>
     </div>
     <div class="boton-unir">
       <v-btn
-       v-if="filesBase64.length > 0"
-       :disabled="filesBase64.length < 2"
+       v-if="filesSeleccionados.length > 0"
+       :disabled="filesSeleccionados.length < 2"
        @click="unirPdf"
        color="primary">
          Unir Pdf
        </v-btn>
     </div>
   </div>
-</div>
 </template>
 
 <script>
+import Draggable from 'vuedraggable';
 import MigasDePan from '@/components/MigasDePan.vue';
 import InputPdf from '@/components/InputPdf.vue';
 import toBase64 from '@/utils/general';
@@ -57,31 +69,51 @@ export default {
     InputPdf,
     VisorPdf,
     DialogoLoad,
+    Draggable,
   },
   data() {
     return {
       filesSeleccionados: [],
+      filesOrdenados: [],
       filesBase64: [],
       loadingUnir: false,
+      drag: false,
     };
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost',
+      };
+    },
   },
   methods: {
     async archivosSeleccionados(files) {
       if (files !== '') {
         const promesasFiles = [];
-        this.filesSeleccionados.push(...files);
+        // this.filesSeleccionados.push(...files);
         files.forEach((file) => {
           promesasFiles.push(toBase64(file));
         });
         const results = await Promise.all(promesasFiles);
-        this.filesBase64.push(...results);
+        results.forEach((fileBase64, index) => {
+          const fileObject = {
+            file: files[index],
+            fileBase64,
+          };
+          this.filesSeleccionados.push(fileObject);
+        });
+        // this.filesBase64.push(...results);
       }
     },
     unirPdf() {
       this.loadingUnir = true;
       const formData = new FormData();
       for (let i = 0; i < this.filesSeleccionados.length; i += 1) {
-        formData.append('files', this.filesSeleccionados[i]);
+        formData.append('files', this.filesSeleccionados[i].file);
       }
       api.unirPdf(formData).then((data) => {
         this.prepararDescargaPdf(data.data).then((urlDescarga) => {
@@ -106,6 +138,12 @@ export default {
       a.click();
       document.body.removeChild(a);
     },
+    dragfuncionStart() {
+      this.drag = true;
+    },
+    dragfuncionEnd() {
+      this.drag = false;
+    },
   },
 };
 </script>
@@ -119,6 +157,7 @@ export default {
   width: 150px;
   height: 210px;
   padding: 6px;
+  cursor: move;
 }
 .titulo-visor {
   text-align: center;
@@ -128,5 +167,19 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+.transition-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.flip-list-move {
+  transition: 0.5s;
+}
+.no-move {
+  transition: 0s;
 }
 </style>
