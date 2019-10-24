@@ -22,7 +22,7 @@
       >Pdf cargados para unir</h3>
       <div class="visores">
         <draggable
-           v-model="filesBase64"
+           v-model="filesSeleccionados"
            v-bind="dragOptions"
            @start="dragfuncionStart"
            @end="dragfuncionEnd">
@@ -31,11 +31,11 @@
             class="transition-wrapper"
             type="transition">
               <div
-                v-for="(fileBase64, index) in filesBase64"
+                v-for="(file, index) in filesSeleccionados"
                 :key="index"
                 class="visores__visor">
                 <VisorPdf
-                  :src="fileBase64"/>
+                  :src="file.fileBase64"/>
               </div>
           </transition-group>
         </draggable>
@@ -43,8 +43,8 @@
     </div>
     <div class="boton-unir">
       <v-btn
-       v-if="filesBase64.length > 0"
-       :disabled="filesBase64.length < 2"
+       v-if="filesSeleccionados.length > 0"
+       :disabled="filesSeleccionados.length < 2"
        @click="unirPdf"
        color="primary">
          Unir Pdf
@@ -73,11 +73,7 @@ export default {
   },
   data() {
     return {
-      filesSeleccionados: [{
-        files: [],
-        filesBase64: [],
-      },
-      ],
+      filesSeleccionados: [],
       filesOrdenados: [],
       filesBase64: [],
       loadingUnir: false,
@@ -98,19 +94,26 @@ export default {
     async archivosSeleccionados(files) {
       if (files !== '') {
         const promesasFiles = [];
-        this.filesSeleccionados.push(...files);
+        // this.filesSeleccionados.push(...files);
         files.forEach((file) => {
           promesasFiles.push(toBase64(file));
         });
         const results = await Promise.all(promesasFiles);
-        this.filesBase64.push(...results);
+        results.forEach((fileBase64, index) => {
+          const fileObject = {
+            file: files[index],
+            fileBase64,
+          };
+          this.filesSeleccionados.push(fileObject);
+        });
+        // this.filesBase64.push(...results);
       }
     },
     unirPdf() {
       this.loadingUnir = true;
       const formData = new FormData();
       for (let i = 0; i < this.filesSeleccionados.length; i += 1) {
-        formData.append('files', this.filesSeleccionados[i]);
+        formData.append('files', this.filesSeleccionados[i].file);
       }
       api.unirPdf(formData).then((data) => {
         this.prepararDescargaPdf(data.data).then((urlDescarga) => {
