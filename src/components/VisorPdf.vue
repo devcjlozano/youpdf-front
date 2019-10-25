@@ -90,6 +90,7 @@ export default {
       };
       await page.render(renderContext);
       this.loading = false;
+      this.$emit('numero-paginas-pdf', pdf.numPages);
     },
   },
 };
