@@ -32,10 +32,13 @@
             type="transition">
               <div
                 v-for="(file, index) in filesSeleccionados"
-                :key="index"
+                :key="`${file.name} ${index}`"
                 class="visores__visor">
                 <VisorPdf
-                  :src="file.fileBase64"/>
+                  :id ="`${file.name} ${index}`"
+                  :src="file.file"/>
+                <!--<VisorPdf
+                  :src="file.fileBase64"/> -->
               </div>
           </transition-group>
         </draggable>
@@ -156,6 +159,7 @@ export default {
   height: 210px;
   padding: 1px;
   margin: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.58);
   cursor: move;
 }
 .titulo-visor {
