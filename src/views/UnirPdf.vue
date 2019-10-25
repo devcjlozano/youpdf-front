@@ -32,10 +32,13 @@
             type="transition">
               <div
                 v-for="(file, index) in filesSeleccionados"
-                :key="index"
+                :key="`${file.name} ${index}`"
                 class="visores__visor">
                 <VisorPdf
-                  :src="file.fileBase64"/>
+                  :id ="`${file.name} ${index}`"
+                  :src="file.file"/>
+                <!--<VisorPdf
+                  :src="file.fileBase64"/> -->
               </div>
           </transition-group>
         </draggable>
@@ -94,7 +97,6 @@ export default {
     async archivosSeleccionados(files) {
       if (files !== '') {
         const promesasFiles = [];
-        // this.filesSeleccionados.push(...files);
         files.forEach((file) => {
           promesasFiles.push(toBase64(file));
         });
@@ -106,7 +108,6 @@ export default {
           };
           this.filesSeleccionados.push(fileObject);
         });
-        // this.filesBase64.push(...results);
       }
     },
     unirPdf() {
@@ -156,7 +157,8 @@ export default {
 .visores__visor {
   width: 150px;
   height: 210px;
-  padding: 6px;
+  padding: 1px;
+  margin: 6px;
   cursor: move;
 }
 .titulo-visor {

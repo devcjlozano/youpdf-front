@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "pdfjs": "^2.3.2",
+    "pdfjs-dist": "^2.2.228",
     "vue": "^2.6.10",
     "vue-pdf": "^4.0.7",
     "vue-router": "^3.0.3",

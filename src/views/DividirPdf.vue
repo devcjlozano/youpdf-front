@@ -25,7 +25,9 @@
        class="dividirPdf__section__pdf-rangos">
          <div class="dividirPdf__section__pdf-rangos--pdf">
            <VisorPdf
-             :src="fileDocumentBase64"
+             v-if="fileSeleccionado !== ''"
+             id="file"
+             :src="fileSeleccionado"
              @numero-paginas-pdf="numeroPaginasPdf"/>
          </div>
          <div class="dividirPdf__section__pdf-rangos--rangos">
