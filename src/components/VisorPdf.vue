@@ -1,28 +1,15 @@
 <template>
-  <div class="visor-pdf">
+  <div
+     class="visor-pdf">
      <canvas
        :class="{'canvas-pdf': true, 'oculto': loading}"
        :id="id">
      </canvas>
-     <!--<div
-       v-if="loading"
-       style="position:absolute">
-      <v-progress-circular
-         indeterminate size="64"></v-progress-circular>
-     </div>
-    <pdf
-      :src="src"
-      :class="{ oculto: loading }"
-      @num-pages="numeroPaginasPdf"
-      @loaded="visorCargado"
-      :page="1">
-    </pdf> -->
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line import/extensions
-// import pdf from 'vue-pdf';
 import pdfjs from 'pdfjs-dist';
 
 export default {
@@ -39,10 +26,6 @@ export default {
       type: String,
       default: '',
     },
-    /* src: {
-      type: String,
-      default: '',
-    }, */
   },
   mounted() {
     this.pintarPdf();
@@ -53,10 +36,17 @@ export default {
       date: Date.now(),
     };
   },
+  computed: {
+    heightVisor() {
+      return document.querySelector('.visor-pdf').offsetHeight;
+    },
+    widthVisor() {
+      return document.querySelector('.visor-pdf').offsetWidth;
+    },
+  },
   watch: {
     src() {
       this.pintarPdf();
-      // this.loading = true;
     },
   },
   methods: {
@@ -79,8 +69,10 @@ export default {
       // Apply page dimensions to the <canvas> element.
       const canvas = document.getElementById(this.id);
       const context = canvas.getContext('2d');
-      canvas.height = 210;
-      canvas.width = 150;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
 
       // Render the page into the <canvas> element.
       const viewport = page.getViewport(canvas.width / page.getViewport(1.0).width);
