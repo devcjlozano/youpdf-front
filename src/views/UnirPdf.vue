@@ -94,7 +94,6 @@ export default {
     async archivosSeleccionados(files) {
       if (files !== '') {
         const promesasFiles = [];
-        // this.filesSeleccionados.push(...files);
         files.forEach((file) => {
           promesasFiles.push(toBase64(file));
         });
@@ -106,7 +105,6 @@ export default {
           };
           this.filesSeleccionados.push(fileObject);
         });
-        // this.filesBase64.push(...results);
       }
     },
     unirPdf() {
@@ -156,7 +154,8 @@ export default {
 .visores__visor {
   width: 150px;
   height: 210px;
-  padding: 6px;
+  padding: 1px;
+  margin: 6px;
   cursor: move;
 }
 .titulo-visor {
