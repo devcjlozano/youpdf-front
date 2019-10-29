@@ -159,6 +159,7 @@ export default {
   height: 210px;
   padding: 1px;
   margin: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.58);
   cursor: move;
 }
 .titulo-visor {

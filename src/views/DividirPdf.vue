@@ -180,6 +180,7 @@ export default {
 .dividirPdf__section__pdf-rangos--pdf {
   width: 200px;
   height: 282px;
+  border: 1px solid rgba(0, 0, 0, 0.58);
 }
 .overlay__contenido {
   display: flex;
