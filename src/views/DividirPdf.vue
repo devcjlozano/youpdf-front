@@ -51,7 +51,6 @@ import RangosPdf from '@/components/RangosPdf.vue';
 import DialogoLoad from '@/components/DialogoLoad.vue';
 import VisorPdf from '@/components/VisorPdf.vue';
 import MigasDePan from '@/components/MigasDePan.vue';
-import toBase64 from '@/utils/general';
 import api from '@/api/index';
 
 export default {
@@ -67,7 +66,6 @@ export default {
     return {
       fileSeleccionado: '',
       numeroPaginas: 0,
-      fileDocumentBase64: '',
       nuevoPdfCargado: false,
       nombrePdf: '',
       loadingVisorPdf: false,
@@ -94,10 +92,8 @@ export default {
         this.nombrePdf = nombrePdf;
         this.loadingVisorPdf = true;
         this.nuevoPdfCargado = true;
-        this.fileDocumentBase64 = await toBase64(file);
         this.nuevoPdfCargado = false;
       } else {
-        this.fileDocumentBase64 = '';
         this.numeroPaginas = 0;
         this.loadingVisorPdf = false;
       }
@@ -180,6 +176,7 @@ export default {
 .dividirPdf__section__pdf-rangos--pdf {
   width: 200px;
   height: 282px;
+  border: 1px solid rgba(0, 0, 0, 0.58);
 }
 .overlay__contenido {
   display: flex;
