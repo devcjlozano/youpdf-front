@@ -55,14 +55,16 @@
               <a href="mailto:carlosjlp@gmail.com">email</a> o un
               <a
                 href="https://twitter.com/carlosjlp"
-                target="__blank">tweet </a>. A
-              demás puedes cotillear mi github en
+                target="__blank">tweet </a>. Además puedes cotillear mi github en
               <a
                 href="https://github.com/devcjlozano"
                 target="__blank">devcjlozano</a>
             </p>
             <p class="footer__container__texto--info">
-              @2019 - Web app programada y diseñada por Carlos Javier usando Vue + Vuetify
+              @2019 - Web app programada y diseñada por
+               <a
+                href="https://twitter.com/carlosjlp"
+                target="__blank">Carlos Javier </a> usando Vue + Vuetify
             </p>
           </div>
       </div>
