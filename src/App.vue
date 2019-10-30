@@ -47,11 +47,24 @@
         <router-view/>
       </div>
     </v-content>
-    <footer class="mensaje-principal">
+    <footer class="footer">
        <div>
-       <h1>Footer</h1>
-        <div class="mensaje-principal__texto">
-          <p>YouPdf es de uso gratuito creado por Carlos Javier Lozano Perez </p>
+        <div class="footer__container">
+          <div class="footer__container__texto">
+            <p>Puedes enviarme un saludo escribéndome un
+              <a href="mailto:carlosjlp@gmail.com">email</a> o un
+              <a
+                href="https://twitter.com/carlosjlp"
+                target="__blank">tweet </a>. A
+              demás puedes cotillear mi github en
+              <a
+                href="https://github.com/devcjlozano"
+                target="__blank">devcjlozano</a>
+            </p>
+            <p class="footer__container__texto--info">
+              @2019 - Web app programada y diseñada por Carlos Javier usando Vue + Vuetify
+            </p>
+          </div>
       </div>
       </div>
     </footer>
@@ -81,11 +94,21 @@ export default {
 </script>
 
 <style scoped>
-.app {
-  background-color: red;
-}
 .nav {
   display: flex;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fafafa;
+}
+.footer__container__texto {
+  max-width: 600px;
+  text-align: center;
+}
+.footer__container__texto--info{
+  color: #4e4e4e;
 }
 .enlace-router{
   text-decoration: none;
@@ -107,9 +130,5 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.mensaje-principal__texto {
-  text-align: center;
 }
 </style>
