@@ -16,6 +16,9 @@
     <InputPdf
       @archivos-seleccionados="archivosSeleccionados"
       :multiple="true"/>
+    <p style="text-align: center" > Selecciona los PDFs que quieres unir. Para cambiar el orden
+      solo tienes que arrastrar los archivos y soltarlos donde quieras.
+    </p>
     <h3
       class="titulo-visor"
       v-if="filesBase64.length > 0"
