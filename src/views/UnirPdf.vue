@@ -32,13 +32,11 @@
             type="transition">
               <div
                 v-for="(file, index) in filesSeleccionados"
-                :key="`${file.name} ${index}`"
+                :key="`${index + 1}`"
                 class="visores__visor">
                 <VisorPdf
-                  :id ="`${file.name} ${index}`"
+                  :id ="`${index + 1}`"
                   :src="file.file"/>
-                <!--<VisorPdf
-                  :src="file.fileBase64"/> -->
               </div>
           </transition-group>
         </draggable>
@@ -60,7 +58,6 @@
 import Draggable from 'vuedraggable';
 import MigasDePan from '@/components/MigasDePan.vue';
 import InputPdf from '@/components/InputPdf.vue';
-import toBase64 from '@/utils/general';
 import VisorPdf from '@/components/VisorPdf.vue';
 import DialogoLoad from '@/components/DialogoLoad.vue';
 import api from '@/api/index';
@@ -96,15 +93,9 @@ export default {
   methods: {
     async archivosSeleccionados(files) {
       if (files !== '') {
-        const promesasFiles = [];
         files.forEach((file) => {
-          promesasFiles.push(toBase64(file));
-        });
-        const results = await Promise.all(promesasFiles);
-        results.forEach((fileBase64, index) => {
           const fileObject = {
-            file: files[index],
-            fileBase64,
+            file,
           };
           this.filesSeleccionados.push(fileObject);
         });

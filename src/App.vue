@@ -18,14 +18,22 @@
         <v-list
           dense
           nav>
-          <v-list-item link>
+          <v-list-item
+            :to="{ name: 'dividirPdf'}"
+            link>
             <v-list-item-content>
-              <v-list-item-title> Cortar PDF </v-list-item-title>
+              <v-list-item-title >
+                Dividir PDF
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item
+             :to="{ name: 'unirPdf'}"
+             link>
             <v-list-item-content>
-              <v-list-item-title>  Unir PDF </v-list-item-title>
+              <v-list-item-title>
+                Unir PDF
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -63,6 +71,11 @@ export default {
     return {
       mostrarMenuDeslizante: false,
     };
+  },
+  methods: {
+    irARuta(name) {
+      this.$router.replace({ name });
+    },
   },
 };
 </script>
