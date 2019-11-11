@@ -6,7 +6,7 @@
   <div class="mensaje-principal">
     <h1>Unir Pdf</h1>
     <div class="mensaje-principal__texto">
-      <p>Une los pdf que selecciones. El orden será el mismo según los vayas cargando  </p>
+      <p>Une tus Pdfs en el orden que prefieras  </p>
     </div>
   </div>
   <div>

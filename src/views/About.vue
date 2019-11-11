@@ -1,14 +1,39 @@
 <template>
   <div class="about">
     <div class="mensaje-principal">
-       <h1>Sobre nosotrosF</h1>
+       <h1>Sobre You pdf</h1>
        <div class="mensaje-principal__texto">
-        <p>pagina sobre nosotros</p>
+        <p>Breve resumen sobre yoy pdf y sobre mí</p>
       </div>
     </div>
     <MigasDePan/>
     <div class="section__contenido">
-      <h1>YouPdf es una app web desarrollada por Carlos J </h1>
+      <div class="resumen">
+        <div>
+          <v-img
+           class="img"
+           src="../assets/img/avatarCJ.png"
+           aspect-ratio="1"
+          />
+        </div>
+        <div>
+          <p> Mi nombre es <strong> Carlos Javier </strong>.
+              Este pequeño <strong> side proyect </strong> llamado <strong> You Pdf </strong>,
+              está creado con el framework javascript
+            <a
+              href="https://vuejs.org/"
+              target="__blank">Vue </a>
+              y el framwork de diseño
+            <a
+              href="https://vuetifyjs.com/"
+              target="__blank">Vuetify</a>.
+          </p>
+          <p> Si quieres ver más side proyects que he compartido, visita mi gitHub
+            <a
+                href="https://github.com/devcjlozano"
+                target="__blank">devcjlozano</a>.</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,3 +49,16 @@ export default {
   },
 };
 </script>
+<style scoped>
+ .resumen {
+   display: flex;
+ }
+ .img {
+   width: 200px;
+ }
+ @media (min-width: 768px) {
+  .img {
+    width: 400px;
+  }
+}
+</style>
